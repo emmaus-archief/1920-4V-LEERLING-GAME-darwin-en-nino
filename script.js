@@ -24,9 +24,10 @@ var spelStatus = SPELEN;
 
 var img;
 var backgroundImg;
-var spelerX = 200;
+var mouseX;
+//var spelerX = 200;
 //var spelerX = mouseX;
-/**var spelerX = function(){
+/*var spelerX = function(){
     if( mouseX > 150 && mouseX < 800){
         spelerX = mouseX;
     }
@@ -197,11 +198,11 @@ function draw() {
         // leven eraf of gezondheid verlagen
         // eventueel: nieuwe speler maken
       }
-
+      
       tekenVeld();
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
-      tekenSpeler(spelerX, spelerY);
+      tekenSpeler(mouseX, spelerY);
 
 
       if (checkGameOver()) {
