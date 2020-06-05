@@ -96,7 +96,7 @@ var tekenKogel = function(x, y) {
  */
 function preload(){
    img = loadImage('images/outo.png');
-   backgroundImg = loadImage('images/background.png')
+   backgroundImg = loadImage('images/background.png');
 }
 
  var tekenSpeler = function(spelerX, spelerY) {
