@@ -22,8 +22,25 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = SPELEN;
 
-var spelerX = 200; // x-positie van speler
-var spelerY = 100; // y-positie van speler
+var img;
+var backgroundImg;
+var mouseX;
+//var spelerX = 200;
+//var spelerX = mouseX;
+/*var spelerX = function(){
+    if( mouseX > 150 && mouseX < 800){
+        spelerX = mouseX;
+    }
+    else if(mouseX < 150){
+        spelerX = 150;
+    }
+    else{
+        spelerX = 800;
+    }
+}*/
+
+ // x-positie van speler
+var spelerY = 500; // y-positie van speler
 
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
@@ -47,7 +64,7 @@ var score = 0; // aantal behaalde punten
  */
 var tekenVeld = function () {
   fill("purple");
-  rect(20, 20, width - 2 * 20, height - 2 * 20);
+  rect(backgroundImg, 20, 20, width - 2 * 20, height - 2 * 20);
 };
 
 
@@ -78,9 +95,14 @@ var tekenKogel = function(x, y) {
  * @param {number} x x-coördinaat
  * @param {number} y y-coördinaat
  */
-var tekenSpeler = function(x, y) {
-  fill("white");
-  ellipse(x, y, 50, 50);
+function preload(){
+   img = loadImage('images/outo.png');
+   backgroundImg = loadImage('images/background.png');
+}
+
+ var tekenSpeler = function(spelerX, spelerY) {
+  
+  image(img,spelerX,spelerY,200,200);
 };
 
 
@@ -162,6 +184,7 @@ function setup() {
 function draw() {
   switch (spelStatus) {
     case SPELEN:
+      background(backgroundImg);
       beweegVijand();
       beweegKogel();
       beweegSpeler();
@@ -175,11 +198,12 @@ function draw() {
         // leven eraf of gezondheid verlagen
         // eventueel: nieuwe speler maken
       }
-
+      
       tekenVeld();
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
-      tekenSpeler(spelerX, spelerY);
+      tekenSpeler(mouseX, spelerY);
+
 
       if (checkGameOver()) {
         spelStatus = GAMEOVER;
