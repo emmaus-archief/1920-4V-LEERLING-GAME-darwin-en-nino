@@ -22,6 +22,23 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = STARTSCHERM;
 
+const SPEELVELDBREEDTE = 1280;
+const SPEELVELDHOOGTE = 720;
+const SPEELVELDRANDBREEDTE = 20;
+const SPELERDIAMETER = 80;
+
+const AANTALVIJANDEN = 10;
+const VIJANDDIAMETER = 40;
+
+var aantalLevens = 5;
+
+var vijandenX = [];
+var vijandenY = [];
+var vijandenSnelheid = [];
+var vijandPlaatje;
+
+var loadImage;
+
 var img;
 var backgroundImg;
 var mouseX;
@@ -78,6 +95,40 @@ var tekenVijand = function(x, y) {
 
 };
 
+var tekenVijanden = function() {
+    for (var i = 0; i < vijandenX.length; i++) {
+        fill(255, 0, 0);
+        
+        image(vijandPlaatje, vijandenX[i], vijandenY[i]);
+        
+    }
+    
+   
+};
+
+var beweegVijand = function() {
+    for (var i = 0; i < vijandenX.length; i++) {
+        vijandenY[i] = vijandenY[i] + vijandenSnelheid[i];
+
+        if (vijandenY[i] > SPEELVELDHOOGTE + VIJANDDIAMETER) {
+            verwijderVijand(i);
+            maakNieuweVijand();
+        }
+    }
+};
+
+function verwijderVijand(nummer) {
+    console.log("verwijder vijand " + nummer);
+    vijandenX.splice(nummer, 1);
+    vijandenY.splice(nummer, 1)
+    vijandenSnelheid.splice(nummer, 1);
+}
+
+function maakNieuweVijand() {
+    vijandenX.push(random(20, SPEELVELDBREEDTE - 20));
+    vijandenY.push(random(-250, -30));
+    vijandenSnelheid.push(random(2, 10));
+}
 
 /**
  * Tekent de kogel of de bal
@@ -95,29 +146,27 @@ var StartSpel = function(){
     }
 }
 
+/*var checkGameOver = function() {
+  
+  if (aantalLevens === 0) {
+      return  true;
+    }else{
+      return  false;
+}
+*/
 
-/**
- * Tekent de speler
- * @param {number} x x-coördinaat
- * @param {number} y y-coördinaat
- */
 function preload(){
    img = loadImage('images/outo.png');
    backgroundImg = loadImage('images/background.png');
+   vijandPlaatje = loadImage('images/alien.png')
 }
 
- var tekenSpeler = function(spelerX, spelerY) {
+var tekenSpeler = function(spelerX, spelerY) {
   
   image(img,spelerX,spelerY,200,200);
 };
 
 
-/**
- * Updatet globale variabelen met positie van vijand of tegenspeler
- */
-var beweegVijand = function() {
-    
-};
 
 
 /**
@@ -153,8 +202,44 @@ var checkVijandGeraakt = function() {
  * @returns {boolean} true als speler is geraakt
  */
 var checkSpelerGeraakt = function() {
-    
-  return false;
+    for (var i = 0; i < vijandenX.length; i++) {
+        
+        if(//vijandenX== mouseX && vijandenY == 500){
+            ((vijandenY[i] - 500 < 20 && vijandenY[i] - 500 > 0) || (500 -vijandenY[i] < 20 && 500 -vijandenY[i] > 0)) && ((vijandenX[i] - mouseX < 20 && vijandenX[i] - mouseX >0) || (mouseX - vijandenX[i] < 20 && mouseX - vijandenX[i] >0 ))){
+        return true;
+        verwijderVijand(i);
+        }else{
+        return false;
+        }
+    }
+};
+
+function verwijderVijand(nummer) {
+    console.log("verwijder vijand " + nummer);
+    vijandenX.splice(nummer, 1);
+    vijandenY.splice(nummer, 1)
+    vijandenSnelheid.splice(nummer, 1);
+}
+
+/*var checkSpelerGeraakt = function(vijandNummer) {
+    var teruggeefWaarde = false;
+
+    for (var j = 0; j < 1; j++) {
+        if (collideCircleCircle(mouseX , 500, 20,vijandenX[vijandNummer], vijandenY[vijandNummer], VIJANDDIAMETER)) {
+            teruggeefWaarde = true;
+            verwijderVijand[j];
+
+        }else
+            teruggeefWaarde = false
+        }
+    }
+    return teruggeefWaarde
+}
+*/
+var levens = function(){
+    var levensString = "levens:" + aantalLevens;
+    text(levensString,50,50,50,50);
+    textSize(40);
 };
 
 
@@ -163,8 +248,12 @@ var checkSpelerGeraakt = function() {
  * @returns {boolean} true als het spel is afgelopen
  */
 var checkGameOver = function() {
-    
-  return false;
+    if (aantalLevens < 1){
+        return true;
+    }else{
+        return false;
+    }
+  
 };
 
 
@@ -179,6 +268,11 @@ function setup() {
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
   background('blue');
+   for (var i = 0; i < AANTALVIJANDEN; i++) {
+      maakNieuweVijand();
+  }
+
+ 
 }
 
 
@@ -201,27 +295,36 @@ function draw() {
       background(backgroundImg);
       beweegVijand();
       beweegKogel();
-      beweegSpeler();
+     beweegSpeler();
       
       if (checkVijandGeraakt()) {
         // punten erbij
         // nieuwe vijand maken
       }
       
-      if (checkSpelerGeraakt()) {
-        // leven eraf of gezondheid verlagen
-        // eventueel: nieuwe speler maken
+      if (checkSpelerGeraakt() == true) {
+        
+         aantalLevens--;
       }
-      
+
+      levens();
       tekenVeld();
-      tekenVijand(vijandX, vijandY);
+      tekenVijanden();
       tekenKogel(kogelX, kogelY);
       tekenSpeler(mouseX - 100, spelerY);
 
 
-      if (checkGameOver()) {
+        if (checkGameOver()) {
         spelStatus = GAMEOVER;
-      }
+        }
       break;
-  }
+  
+    case GAMEOVER:
+        background(red);
+        text("Game over",400,70,200,400);
+        text("Start opnieuw",400,240,200,400);
+        textSize(200);
+        StartSpel();
+    break;  
+  }  
 }
