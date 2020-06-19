@@ -22,8 +22,14 @@ const SPELEN = 1;
 const GAMEOVER = 2;
 var spelStatus = STARTSCHERM;
 
+const SPEELVELDBREEDTE = 1280;
+const SPEELVELDHOOGTE = 720;
+
+const VIJANDDIAMETER = 40;
+
 var img;
 var backgroundImg;
+var vijandPlaatje;
 var mouseX;
 //var spelerX = 200;
 //var spelerX = mouseX;
@@ -40,6 +46,7 @@ var mouseX;
 }*/
 
  // x-positie van speler
+var spelerX = mouseX - 100;
 var spelerY = 500; // y-positie van speler
 
 var kogelX = 0;    // x-positie van kogel
@@ -52,8 +59,12 @@ var vijandYSnelheid = -2;  // verticale snelheid van vijand
 
 var score = 0; // aantal behaalde punten
 
+var stopwatchSec = 0;
+var stopwatchMin = 0;
 
-
+var vijandenX = [];
+var vijandenY = [];
+var vijandenSnelheid = [];
 
 
 /* ********************************************* */
@@ -76,13 +87,13 @@ var tekenVeld = function () {
  * @param {number} y y-coördinaat
  */
 var tekenVijand = function(x, y) {
-    function preload() {
-     vijandPlaatje = loadImage('plaatjes/alien.png');
-}
+    img(vijandPlaatje ,x,y);
+     
+};
 
     
 
-};
+
 
 
 /**
@@ -99,7 +110,7 @@ var StartSpel = function(){
     if (mouseIsPressed == true && mouseX> 400 && mouseX < 800 && mouseY > 240 && mouseY < 350) {
         spelStatus = SPELEN;
     }
-}
+};
 
 
 /**
@@ -110,9 +121,11 @@ var StartSpel = function(){
 function preload(){
    img = loadImage('images/outo.png');
    backgroundImg = loadImage('images/background.png');
-}
+   vijandPlaatje = loadImage('images/alien.png');
+};
 
- var tekenSpeler = function(spelerX, spelerY) {
+
+ var tekenSpeler = function(spelerXTeken, spelerYTeken) {
   
   image(img,spelerX,spelerY,200,200);
 };
@@ -122,7 +135,7 @@ function preload(){
  * Updatet globale variabelen met positie van vijand of tegenspeler
  */
 
-function tekenTimer() {
+function tekenTimer () {
     var extraNul = "";
     if (stopwatchSec < 10) {
         extraNul = "0";
@@ -132,7 +145,7 @@ function tekenTimer() {
 
     textSize(12);
     text(timerString , 50, 50, 50, 50);
-}
+};
 
 function tekenScore() {
     textSize(24);
@@ -150,7 +163,19 @@ var beweegVijand = function() {
     }
 };
 
+function verwijderVijand(nummer) {
+    console.log("verwijder vijand " + nummer);
+    vijandenX.splice(nummer, 1);
+    vijandenY.splice(nummer, 1)
+    vijandenSnelheid.splice(nummer, 1);
 
+};
+
+function maakNieuweVijand() {
+    vijandenX.push(random(20, SPEELVELDBREEDTE - 20));
+    vijandenY.push(random(-250, -30));
+    vijandenSnelheid.push(random(2, 10));
+};
 /**
  * Updatet globale variabelen met positie van kogel of bal
  */
@@ -247,7 +272,9 @@ function draw() {
       tekenVeld();
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
-      tekenSpeler(mouseX - 100, spelerY);
+      tekenSpeler(spelerX, spelerY);
+      tekenTimer();
+      tekenScore(); 
 
 
       if (checkGameOver()) {
