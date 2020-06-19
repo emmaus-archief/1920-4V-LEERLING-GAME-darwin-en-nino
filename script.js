@@ -145,6 +145,12 @@ var StartSpel = function(){
         spelStatus = SPELEN;
     }
 }
+var StartSpelGameOver = function(){
+    if (mouseIsPressed == true && mouseX> 400 && mouseX < 800 && mouseY > 240 && mouseY < 350) {
+        spelStatus = STARTSCHERM;
+        aantalLevens = 5;
+    }
+}
 
 /*var checkGameOver = function() {
   
@@ -204,7 +210,7 @@ var checkVijandGeraakt = function() {
 var checkSpelerGeraakt = function() {
     for (var i = 0; i < vijandenX.length; i++) {
         
-        if(//vijandenX== mouseX && vijandenY == 500){
+        if(//vijandenX[i] == mouseX && vijandenY[i] == 500){
             ((vijandenY[i] - 500 < 20 && vijandenY[i] - 500 > 0) || (500 -vijandenY[i] < 20 && 500 -vijandenY[i] > 0)) && ((vijandenX[i] - mouseX < 20 && vijandenX[i] - mouseX >0) || (mouseX - vijandenX[i] < 20 && mouseX - vijandenX[i] >0 ))){
         return true;
         verwijderVijand(i);
@@ -317,14 +323,14 @@ function draw() {
         if (checkGameOver()) {
         spelStatus = GAMEOVER;
         }
-      break;
+    break;
   
     case GAMEOVER:
-        background(red);
-        text("Game over",400,70,200,400);
-        text("Start opnieuw",400,240,200,400);
-        textSize(200);
-        StartSpel();
+        background(backgroundImg);
+        text("Game over",400,70,400,400);
+        text("Start opnieuw",400,240,400,400);
+        textSize(50);
+        StartSpelGameOver();
     break;  
   }  
 }
