@@ -77,7 +77,7 @@ var tekenVeld = function () {
  */
 var tekenVijand = function(x, y) {
     function preload() {
-     vijandPlaatje = loadImage('plaatjes/vijand.png');
+     vijandPlaatje = loadImage('plaatjes/alien.png');
 }
 
     
@@ -121,8 +121,33 @@ function preload(){
 /**
  * Updatet globale variabelen met positie van vijand of tegenspeler
  */
+
+function tekenTimer() {
+    var extraNul = "";
+    if (stopwatchSec < 10) {
+        extraNul = "0";
+    }
+
+    var timerString = stopwatchMin + " : " + extraNul + stopwatchSec;
+
+    textSize(12);
+    text(timerString , 50, 50, 50, 50);
+}
+
+function tekenScore() {
+    textSize(24);
+    text(""+score , width-100, 50, 150, 100);
+}
+
 var beweegVijand = function() {
-    
+    for (var i = 0; i < vijandenX.length; i++) {
+        vijandenY[i] = vijandenY[i] + vijandenSnelheid[i];
+
+        if (vijandenY[i] > SPEELVELDHOOGTE + VIJANDDIAMETER) {
+            verwijderVijand(i);
+            maakNieuweVijand();
+        }
+    }
 };
 
 
