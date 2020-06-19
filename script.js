@@ -17,10 +17,10 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
-const UITLEG = 0;
+const STARTSCHERM = 0;
 const SPELEN = 1;
 const GAMEOVER = 2;
-var spelStatus = SPELEN;
+var spelStatus = STARTSCHERM;
 
 var img;
 var backgroundImg;
@@ -88,6 +88,12 @@ var tekenKogel = function(x, y) {
 
 
 };
+
+var StartSpel = function(){
+    if (mouseIsPressed == true && mouseX> 400 && mouseX < 800 && mouseY > 240 && mouseY < 350) {
+        spelStatus = SPELEN;
+    }
+}
 
 
 /**
@@ -183,6 +189,14 @@ function setup() {
  */
 function draw() {
   switch (spelStatus) {
+
+    case STARTSCHERM:
+    background(backgroundImg);
+    text("Start",400,240,200,400);
+    textSize(200);
+    StartSpel ();
+    break;
+
     case SPELEN:
       background(backgroundImg);
       beweegVijand();
