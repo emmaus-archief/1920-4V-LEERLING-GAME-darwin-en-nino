@@ -45,10 +45,8 @@ var spelerY = 500; // y-positie van speler
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
 
-var vijandX = 100;          // x-positie van vijand
-var vijandY = -50;          // y-positie van vijand
-var vijandXSnelheid = 3;    // horizontale snelheid van vijand
-var vijandYSnelheid = -2;  // verticale snelheid van vijand
+var vijandX = 0;   // x-positie van vijand
+var vijandY = 0;   // y-positie van vijand
 
 var score = 0; // aantal behaalde punten
 
@@ -76,10 +74,6 @@ var tekenVeld = function () {
  * @param {number} y y-coördinaat
  */
 var tekenVijand = function(x, y) {
-    function preload() {
-     vijandPlaatje = loadImage('plaatjes/alien.png');
-}
-
     
 
 };
@@ -121,33 +115,8 @@ function preload(){
 /**
  * Updatet globale variabelen met positie van vijand of tegenspeler
  */
-
-function tekenTimer() {
-    var extraNul = "";
-    if (stopwatchSec < 10) {
-        extraNul = "0";
-    }
-
-    var timerString = stopwatchMin + " : " + extraNul + stopwatchSec;
-
-    textSize(12);
-    text(timerString , 50, 50, 50, 50);
-}
-
-function tekenScore() {
-    textSize(24);
-    text(""+score , width-100, 50, 150, 100);
-}
-
 var beweegVijand = function() {
-    for (var i = 0; i < vijandenX.length; i++) {
-        vijandenY[i] = vijandenY[i] + vijandenSnelheid[i];
-
-        if (vijandenY[i] > SPEELVELDHOOGTE + VIJANDDIAMETER) {
-            verwijderVijand(i);
-            maakNieuweVijand();
-        }
-    }
+    
 };
 
 
