@@ -202,7 +202,7 @@ function draw() {
       tekenVeld();
       tekenVijand(vijandX, vijandY);
       tekenKogel(kogelX, kogelY);
-      tekenSpeler(mouseX, spelerY);
+      tekenSpeler(mouseX - 100, spelerY);
 
 
       if (checkGameOver()) {
