@@ -45,8 +45,10 @@ var spelerY = 500; // y-positie van speler
 var kogelX = 0;    // x-positie van kogel
 var kogelY = 0;    // y-positie van kogel
 
-var vijandX = 0;   // x-positie van vijand
-var vijandY = 0;   // y-positie van vijand
+var vijandX = 100;          // x-positie van vijand
+var vijandY = -50;          // y-positie van vijand
+var vijandXSnelheid = 3;    // horizontale snelheid van vijand
+var vijandYSnelheid = -2;  // verticale snelheid van vijand
 
 var score = 0; // aantal behaalde punten
 
@@ -74,6 +76,10 @@ var tekenVeld = function () {
  * @param {number} y y-coördinaat
  */
 var tekenVijand = function(x, y) {
+    function preload() {
+     vijandPlaatje = loadImage('plaatjes/vijand.png');
+}
+
     
 
 };
